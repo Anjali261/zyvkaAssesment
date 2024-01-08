@@ -24,6 +24,19 @@ const connectDB = async() =>{
 }
 connectDB(); 
 
+const drawingSchema = new mongoose.Schema({
+    shape: String,
+    coordinates: {
+         x: Number,
+          y: Number },
+    dimensions: 
+    { length: Number, 
+        breadth: Number },
+    annotation: String,
+  });
+  const Drawing = mongoose.model('Drawing', drawingSchema);
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
