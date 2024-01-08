@@ -36,6 +36,24 @@ const drawingSchema = new mongoose.Schema({
   });
   const Drawing = mongoose.model('Drawing', drawingSchema);
 
+  app.get('/api/drawings', async (req, res) => {
+    try {
+      const drawings = await Drawing.find();
+      res.json(drawings);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+  
+  app.post('/api/drawings', async (req, res) => {
+    const drawing = new Drawing(req.body);
+    try {
+      const newDrawing = await drawing.save();
+      res.status(201).json(newDrawing);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  });
 
 
 app.listen(PORT, () => {
