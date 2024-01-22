@@ -27,6 +27,8 @@ const connectDB = async() =>{
 }
 connectDB(); 
 
+
+
 const drawingSchema = new mongoose.Schema({
     shape: String,
     coordinates: {
@@ -68,6 +70,19 @@ const drawingSchema = new mongoose.Schema({
   });
     
 
+  app.delete('/api/drawings/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const deletedDrawing = await Drawing.findByIdAndDelete(id);
+        if (deletedDrawing) {
+            res.json({ message: 'Drawing deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Drawing not found' });
+        }
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
